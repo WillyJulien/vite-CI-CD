@@ -1,7 +1,11 @@
 name: install nodejs
 on: [push]
+defaults:
+  run:
+    shell: bash
+    working-directory: ./vite-project
 jobs:
-  say-build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: install nodejs
@@ -10,4 +14,3 @@ jobs:
         uses: actions/checkout@v4
       - name: install dependancies
         run: npm install
-        working-directory: ./vite-project
