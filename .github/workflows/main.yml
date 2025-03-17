@@ -1,9 +1,5 @@
 name: install nodejs
 on: [push]
-defaults:
-  run:
-    shell: bash
-    working-directory: ./vite-project
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,5 +8,14 @@ jobs:
         uses: actions/setup-node@v4
       - name: fetch repository
         uses: actions/checkout@v4
+      # met des elements en cache, le cache permet de gagner du temps lors des prochaines utilisations du workflow
+      # on place configure cache avant  install dependancies cafin que le cache prenne en compte les dépendance
+      - name: configure cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-${{ hashFiles('./vite-project/package-lock.json') }}
+          path: ./vite-project/.npm
+        # on installe les dépendances qui seront mis en cache
       - name: install dependancies
-        run: npm install
+        run: npm ci --cache .npm --prefer-offline
+        working-directory: ./vite-project
