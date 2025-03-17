@@ -1,0 +1,16 @@
+name: env_staging
+# on defini que le workflow se lancera lors d'un push sur la branche staging
+on:
+  push:
+    branches: staging
+    
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    # on indique sur quelle environnement le workflow doit tourner
+    environment:
+      name: staging
+      url: https://toto.fr
+    steps: 
+      - run: |
+          echo Deploy to staging
